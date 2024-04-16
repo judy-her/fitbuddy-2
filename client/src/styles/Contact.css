@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-family: 'Philosopher', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-size: 40px;
+}
+
+h2,
+p {
+  font-size: 19px;
+}
+.philosopher-regular {
+  font-family: 'Philosopher', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.philosopher-regular-italic {
+  font-family: 'Philosopher', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.philosopher-bold {
+  font-family: 'Philosopher', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.philosopher-bold-italic {
+  font-family: 'Philosopher', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+.pages-container {
+  display: flex;
+  margin: 0;
+  width: 100vw;
+  height: 80vh;
+}
+.contact-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--main-font-family);
+  /* height: 100vh; */
+  width: 925px;
+  margin: auto;
+}
+
+form {
+  width: 370px;
+  display: block;
+  margin: auto;
+  border-radius: 15px;
+  padding-right: 14px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  border: 2px solid pink;
+}
+.title {
+  /* font-size: 70px; */
+  padding-bottom: 10px;
+}
+.msg-box {
+  width: 540px;
+}
+.body-text {
+  padding-top: 20px;
+  padding-bottom: 5px;
+  /* font-size: 30px; */
+}
+.labels {
+  margin: auto;
+  padding-top: 5px;
+}
+.labels > li {
+  display: block;
+  text-align: left;
+  font-size: 20px;
+  padding: 3px;
+}
+
+label {
+  padding-right: 5px;
+}
+input {
+  border-width: 2px;
+  border-color: pink;
+  border-radius: 27px;
+  padding-left: 4px;
+}
+.name,
+.email,
+.message {
+  background: -webkit-linear-gradient(
+    50.1deg,
+    rgba(2, 2, 124),
+    #ae67fa,
+    #f49867
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.name {
+  padding-right: 25px;
+}
+.email {
+  padding-right: 34px;
+}
+
+.form-control {
+  border-radius: 27px;
+  border-width: 2px;
+  border-color: pink;
+}
+
+.button-box {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  padding-top: 10px;
+  width: 220px;
+  margin: auto;
+  padding-left: 10px;
+}
+.btn {
+  background: var(--linear-gradient);
+  font-family: var(--main-font-family);
+  color: rgb(249, 245, 237);
+  font-size: 20px;
+  width: 120px;
+  height: 40px;
+  border-radius: 27px;
+  border-width: 1px;
+  border-color: pink;
+}
