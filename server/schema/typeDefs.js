@@ -9,17 +9,20 @@ const typeDefs = `
   }
 
   type Exercise {
-    _id: ID
-    title(author): String!
+    _id: ID!
+    title: String!
     description: String!
     exerciseId: String!
+    equipment:[String!]
     image: String
     link: String
+    category: Category!
   }
 
   type Category {
-    _id: ID
-    name: String
+    _id: ID!
+    name: String!
+    exercises: [Exercise!]!
   }
 
 
@@ -32,7 +35,7 @@ const typeDefs = `
     user: User
     users: [User!]
     exercise(_id: ID!) : Exercise
-    
+
     exercises(categoryID: ID, name: String) :[Exercise]
     category(ID:ID!): Category!
     
