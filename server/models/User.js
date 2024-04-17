@@ -1,8 +1,10 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongose');
+const { Schema } = require('mongoose');
 const bcrypt = require('bcrypt');
 
 // import schema from Exercise.js
-const exerciseSchema = require('./Exercise');
+
+const Exercise = require('./Exercise');
 
 const userSchema = new Schema(
   {
@@ -25,7 +27,7 @@ const userSchema = new Schema(
       required: true,
     },
     // set savedExercises to be an array of data that adheres to the exerciseSchema
-    savedExercises: [exerciseSchema],
+    savedExercises: [Exercise.schema],
   },
   // set this to use virtual below
   {
@@ -55,6 +57,6 @@ userSchema.virtual('exerciseCount').get(function () {
   return this.savedExercises.length;
 });
 
-const User = model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

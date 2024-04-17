@@ -12,9 +12,9 @@ const typeDefs = `
     _id: ID!
     title: String!
     description: String!
-    (not sure)exerciseId: String!
+    exerciseId: String!
     equipment:[String!]!
-    image(link): String
+    image: String
     category: Category!
   }
 

@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongose');
+const { Schema } = require('mongoose');
 
 const exerciseSchema = new Schema({
   // Exercise title
