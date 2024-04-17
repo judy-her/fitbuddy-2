@@ -4,7 +4,7 @@ const typeDefs = `
     username: String!
     email: String!
     password: String!
-    savedExercises: [Exercise]
+    savedExercises: [Exercise!]!
     exerciseCount: Int
   }
 
@@ -12,10 +12,9 @@ const typeDefs = `
     _id: ID!
     title: String!
     description: String!
-    exerciseId: String!
-    equipment:[String!]
-    image: String
-    link: String
+    (not sure)exerciseId: String!
+    equipment:[String!]!
+    image(link): String
     category: Category!
   }
 
@@ -34,9 +33,10 @@ const typeDefs = `
   type Query {
     user: User
     users: [User!]
-    exercise(_id: ID!) : Exercise
 
+    exercise(_id: ID!) : Exercise
     exercises(categoryID: ID, name: String) :[Exercise]
+
     category(ID:ID!): Category!
     
   }
@@ -46,10 +46,9 @@ const typeDefs = `
 
     login(email: String!, password: String!): Auth
 
-    saveExercise(exerciseId: String!, title: String!, description: String!, image: String, link: String): User
+    saveExercise(exerciseId: String!, title: String!, description: String!, image: String, category:ID!): User
 
-
-    deleteExercise(exerciseId: String!): User
+    deleteExercise(exerciseId: ID!): User
   }
 `;
 

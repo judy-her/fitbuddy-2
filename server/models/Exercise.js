@@ -23,7 +23,8 @@ const exerciseSchema = new Schema({
   },
   // Exercise category (e.g., cardio, strength, flexibility)
   category: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
     required: true,
   },
 });
@@ -31,5 +32,3 @@ const exerciseSchema = new Schema({
 const Exercise = model('Exercise', exerciseSchema);
 
 module.exports = Exercise;
-
-//
