@@ -1,4 +1,4 @@
-const mongoose = require('mongose');
+const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 
 const categorySchema = new Schema({
