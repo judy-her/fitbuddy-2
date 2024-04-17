@@ -11,16 +11,15 @@ const resolvers = {
 
         const foundUser = await User.findById(user._id);
         return foundUser;
-
       } catch (err) {
         console.log(err);
-        throw err
+        throw err;
       }
     },
   },
 
   Mutation: {
-    createUser: async (_, {username, email, password}) => {
+    createUser: async (_, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
       return { token, user };
@@ -41,32 +40,31 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    saveBook: async (_, args, { user }) => {
+    saveExercise: async (_, args, { user }) => {
       if (!user) {
         throw AuthenticationError;
       }
 
       const updatedUser = await User.findByIdAndUpdate(
         user._id,
-        { $addToSet: { savedBooks: args } },
+        { $addToSet: { savedExercises: args } },
         { new: true, runValidators: true }
       );
       return updatedUser;
     },
-    deleteBook: async (_, { bookId }, { user }) => {
+    deleteExercise: async (_, { exerciseId }, { user }) => {
       if (!user) {
         throw AuthenticationError;
       }
 
       const updatedUser = await User.findByIdAndUpdate(
         user._id,
-        { $pull: { savedBooks: { bookId: bookId } } },
+        { $pull: { savedExercises: { exerciseId: exerciseId } } },
         { new: true }
       );
       return updatedUser;
-    }
-  }
-}
-
+    },
+  },
+};
 
 module.exports = resolvers;
