@@ -16,7 +16,7 @@ import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import { ADD_BOOK } from "../utils/mutations";
 
 const SearchBooks = () => {
-  // create state for holding returned google api data
+  // create state for holding returned google api  data
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [exercisesList, setExercisesList] = useState([]);
   const [selectedExercise, setExercise] = useState('');
