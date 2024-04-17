@@ -15,6 +15,7 @@ async function startApolloServer() {
   const db = require('./config/connection');
   const routes = require('./routes');
 
+  console.log(db)
   const app = express();
   const PORT = process.env.PORT || 3001;
 
