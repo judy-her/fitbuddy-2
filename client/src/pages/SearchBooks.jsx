@@ -100,18 +100,31 @@ const SearchBooks = () => {
     <>
       <div className="text-light bg-dark p-5">
         <Container>
-          <h1>Search for Books!</h1>
+          <h1>Select Category!</h1>
           <Form onSubmit={handleFormSubmit}>
             <Row>
               <Col xs={12} md={8}>
-                <Form.Control
+                {/* <Form.Control
                   name='searchInput'
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   type='text'
                   size='lg'
-                  placeholder='Search for a book'
-                />
+                  placeholder='Select a category'
+                /> */}
+                <Form.Select
+                  name='searchInput'
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  size='lg'
+                  aria-label='Select a category'
+                >
+                  <option value=''>Select a category</option>
+                  <option value='category1'>Category 1</option>
+                  <option value='category2'>Category 2</option>
+                  <option value='category3'>Category 3</option>
+                  {/* Add more options as needed */}
+                </Form.Select>
               </Col>
               <Col xs={12} md={4}>
                 <Button type='submit' variant='success' size='lg'>
@@ -127,7 +140,7 @@ const SearchBooks = () => {
         <h2 className='pt-5'>
           {searchedBooks.length
             ? `Viewing ${searchedBooks.length} results:`
-            : 'Search for a book to begin'}
+            : 'Choose excercise you want'}
         </h2>
         <Row>
           {searchedBooks.map((book) => {
