@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const CREATE_USER = gql`
   mutation createUser($username: String!, $email: String!, $password: String!) {
@@ -13,6 +13,7 @@ export const CREATE_USER = gql`
   }
 `;
 
+// Define LOGIN_USER mutation using gql
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
@@ -26,30 +27,130 @@ export const LOGIN_USER = gql`
   }
 `;
 
-export const ADD_BOOK = gql`
-  mutation saveBook($bookId: String!, $title: String!, $description: String!, $authors: [String], $image: String, $link: String) {
-    saveBook(bookId: $bookId, title: $title, description: $description, authors: $authors, image: $image, link: $link) {
+export const ADD_EXERCISE = gql`
+  mutation saveExercise(
+    $exerciseId: String!
+    $title: String!
+    $description: String!
+    $image: String
+    $category: ID!
+  ) {
+    saveExercise(
+      exerciseId: $exerciseId
+      title: $title
+      description: $description
+      image: $image
+      category: $category
+    ) {
       _id
       username
       email
+      savedExercises {
+        _id
+        title
+        description
+        exerciseId
+        equipment
+        image
+        category {
+          _id
+          name
+        }
+      }
+      exerciseCount
     }
   }
 `;
 
-export const DELETE_BOOK = gql`
-  mutation deleteBook($bookId: String!) {
-    deleteBook(bookId: $bookId) {
+// was DELETE_BOOK
+// Define DELETE_EXERCISE mutation using gql
+export const DELETE_EXERCISE = gql`
+  mutation deleteExercise($exerciseId: ID!) {
+    deleteExercise(exerciseId: $exerciseId) {
       _id
       username
       email
-      bookCount
-      savedBooks {
-        authors
-        bookId
+      savedExercises {
+        _id
         title
+        description
+        exerciseId
+        equipment
         image
-        link
+        category {
+          _id
+          name
+        }
       }
+      exerciseCount
     }
   }
 `;
+
+// import { gql } from "@apollo/client";
+
+// // Define CREATE_USER mutation using gql
+// export const CREATE_USER = gql`
+//   mutation createUser($username: String!, $email: String!, $password: String!) {
+//     createUser(username: $username, email: $email, password: $password) {
+//       token
+//       user {
+//         _id
+//         username
+//         email
+//       }
+//     }
+//   }
+// `;
+// export const ADD_BOOK = gql`
+//   mutation saveBook(
+//     $bookId: String!
+//     $title: String!
+//     $description: String!
+//     $authors: [String]
+//     $image: String
+//     $link: String
+//   ) {
+//     saveBook(
+//       bookId: $bookId
+//       title: $title
+//       description: $description
+//       authors: $authors
+//       image: $image
+//       link: $link
+//     ) {
+//       _id
+//       username
+//       email
+//     }
+//   }
+// `;
+// export const LOGIN_USER = gql`
+//   mutation login($email: String!, $password: String!) {
+//     login(email: $email, password: $password) {
+//       token
+//       user {
+//         _id
+//         username
+//         email
+//       }
+//     }
+//   }
+// `;
+// export const DELETE_BOOK = gql`
+//   mutation deleteBook($bookId: String!) {
+//     deleteBook(bookId: $bookId) {
+//       _id
+//       username
+//       email
+//       bookCount
+//       savedBooks {
+//         authors
+//         bookId
+//         title
+//         image
+//         link
+//       }
+//     }
+//   }
+// `;
