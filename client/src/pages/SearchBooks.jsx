@@ -1,5 +1,5 @@
 import { useState, useEffect, useId } from 'react';
-import { useMutation } from "@apollo/client";
+import { useMutation,useQuery,useLazyQuery } from "@apollo/client";
 import {
   Container,
   Col,
@@ -10,12 +10,12 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks,fetchCategories,getExercises,getExercise } from '../utils/API';
+import { saveBook, searchGoogleBooks,getExercises,getExercise } from '../utils/API';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
-
-import { ADD_BOOK } from "../utils/mutations";
+import { QUERY_CATEGORIES,QUERY_EXERCISES_BY_CATEGORIES } from "../utils/queries";
 
 const SearchBooks = () => {
+  
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [exercisesList, setExercisesList] = useState([]);
@@ -23,13 +23,23 @@ const SearchBooks = () => {
   const [exerciseInfo, setExerciseInfo] = useState('');
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [buttonClicked, setButtonClicked] = useState(false);
+
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
   // create state to hold saved bookId values
   const [savedBookIds, setSavedBookIds] = useState([]);
   const [userId, setUserId] = useState('');
 
-  const [addBook, { error: muErr }] = useMutation(ADD_BOOK);
+  const { loading, error, data } = useQuery(QUERY_CATEGORIES);
+  useQuery(QUERY_EXERCISES_BY_CATEGORIES, {
+    variables: { bodyType: selectedCategory },
+    skip: !buttonClicked, // Skip the query if the button hasn't been clicked
+    onCompleted: (data) => {
+      // Update exercisesList with fetched data
+      setExercisesList(data.fetchExercisesByCategory);
+    },
+  });
 
   useEffect(() => {
     if (Auth.loggedIn()) {
@@ -42,35 +52,41 @@ const SearchBooks = () => {
   useEffect(() => {
     saveBookIds(savedBookIds, userId);
   }, [savedBookIds]);  
-  
+
   useEffect(() => {
-    getCategories();
-  }, []);
+    if (!loading && data && !buttonClicked) {
+      setCategories(data.fetchCategories);
+    }
+  }, [loading, data]);
 
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      const response = await getExercises(selectedCategory);
-
-      setExercisesList(JSON.parse(await response.text()));
-      // setSearchInput('');
-    } catch (err) {
-      console.error(err);
-    }
+    setButtonClicked(true);
   };
   
   const handleFormSubmitExercise = async (event) => {
     event.preventDefault();
-
-    try {
-      const response = await getExercise(selectedExercise);
-      setExerciseInfo(JSON.parse(await response?.text()));
-    } catch (err) {
-      console.error(err);
+    const { loading: exercisesLoading, error: exercisesError, data: exercisesData } = useQuery(QUERY_EXERCISES_BY_CATEGORIES, {
+      variables: { bodyType: selectedCategory },
+    });
+    // Check if loading is true
+    if (loading) {
+      // Handle loading state
+      console.log('Loading...');
+      return;
     }
+
+    // Check if there's an error
+    if (error) {
+      // Handle error state
+      console.error('Error:', error);
+      return;
+    }
+
+    // Data is available here
+    const exercisesList = data.fetchExercisesByCategory;
+    setExercisesList(exercisesList);
   };
 
   // create function to handle saving a book to our database
@@ -98,12 +114,6 @@ const SearchBooks = () => {
     }
   };
 
-
-  const getCategories = async () => {
-    const response = await fetchCategories();
-    setCategories(JSON.parse(await response?.text()));
-  };
-
   return (
     <>
       <div className="text-light bg-dark p-5">
@@ -121,8 +131,8 @@ const SearchBooks = () => {
                 >
                   <option value=''>Select a category</option>
                   {categories.map(category => (
-                    <option key={category} value={category}>
-                      {category}
+                    <option key={category.name} value={category.name}>
+                      {category.name}
                     </option>
                   ))}
                   {/* Add more options as needed */}
