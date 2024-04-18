@@ -17,6 +17,42 @@ const resolvers = {
         throw err
       }
     },
+
+    fetchCategories: async () => {
+      const response = await fetch('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', {
+          headers: {
+            'x-rapidapi-key': '5628ad94famsh5f6bc36e06fbb0dp175058jsnceb08da1012c',
+            'x-rapidapi-host': 'exercisedb.p.rapidapi.com'
+          }
+        });
+
+        const categories = JSON.parse(await response.text());
+        return categories.map((categoryName, index) => ({
+          id: index + 1, // You can use the index as the ID or generate unique IDs as needed
+          name: categoryName,
+          description: 'Default description',
+          bodyPart: categoryName,
+          gifUrl: 'Default gif URL'
+        }));
+    },
+
+    fetchExercisesByCategory: async (_,{bodyType}) => {
+      const response = fetch(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyType}`, {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': '5628ad94famsh5f6bc36e06fbb0dp175058jsnceb08da1012c',
+          'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+        }
+      });
+      const categories = JSON.parse(await response.text());
+      return categories.map((category) => ({
+        id: category.id, // You can use the index as the ID or generate unique IDs as needed
+        name: category.name,
+        description: category.description,
+        bodyPart: category.bodyPart,
+        gifUrl: category.gifUrl
+      }));
+    }
   },
 
   Mutation: {
