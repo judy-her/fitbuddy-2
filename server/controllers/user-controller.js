@@ -70,4 +70,17 @@ module.exports = {
     }
     return res.json(updatedUser);
   },
+
+  // get a categories
+  async getCategories() {
+    const response = await fetch('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': '5628ad94famsh5f6bc36e06fbb0dp175058jsnceb08da1012c',
+        'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
+      }
+    });
+    console.log(response);
+    return response;
+  },
 };
