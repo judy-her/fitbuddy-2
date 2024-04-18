@@ -74,9 +74,9 @@ const SearchBooks = () => {
   };
 
   // create function to handle saving a book to our database
-  const handleSaveBook = async (bookId) => {
+  const handleSaveBook = async (exercise) => {
     // find the book in `searchedBooks` state by the matching id
-    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+    const bookToSave = exerciseInfo.find((exercise) => exercise.exerciseId === exerciseId);
 
     // get token
     // const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -185,6 +185,20 @@ const SearchBooks = () => {
                   <Card.Body>
                     <Card.Title>{exerciseInfo.name}</Card.Title>
                     <p className='small'>Category: {exerciseInfo.bodyPart}</p>
+                    <p className='small'>Equipment: {exerciseInfo.equipment}</p>
+                    <p className='small'>Target: {exerciseInfo.target}</p>
+                    <p className='small'>Instructions:</p>
+                    <ul>
+                    {exerciseInfo.instructions? exerciseInfo.instructions.map((instruction, index) => (
+                      <li key={index}>{instruction}</li>
+                    )): null}
+                   </ul>
+                   <p className='small'>Secondary Muscles:</p>
+                  <ul>
+                    {exerciseInfo.secondaryMuscles? exerciseInfo.secondaryMuscles.map((muscle, index) => (
+                      <li key={index}>{muscle}</li>
+                    )): null}
+                  </ul>
                     {/* <Card.Text>{exerice.description}</Card.Text> */}
                     {Auth.loggedIn() && (
                       <Button
