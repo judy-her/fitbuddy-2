@@ -178,23 +178,23 @@ const SearchBooks = () => {
         </h2>
         <Row>
             <Col md="4" key={exerciseInfo.id}>
-                <Card border='dark'>
+                <Card className='exercise-card' border='dark'>
                   {exerciseInfo.gifUrl ? (
                     <Card.Img src={exerciseInfo.gifUrl} alt={`The cover for ${exerciseInfo.name}`} variant='top' />
                   ) : null}
                   <Card.Body>
-                    <Card.Title>{exerciseInfo.name}</Card.Title>
+                    <Card.Title className='exercise-name'>{exerciseInfo.name}</Card.Title>
                     <p className='small'>Category: {exerciseInfo.bodyPart}</p>
                     <p className='small'>Equipment: {exerciseInfo.equipment}</p>
                     <p className='small'>Target: {exerciseInfo.target}</p>
                     <p className='small'>Instructions:</p>
-                    <ul>
+                    <ul className='instructions-list'>
                     {exerciseInfo.instructions? exerciseInfo.instructions.map((instruction, index) => (
                       <li key={index}>{instruction}</li>
                     )): null}
                    </ul>
                    <p className='small'>Secondary Muscles:</p>
-                  <ul>
+                  <ul className='secondary-muscles-list'>
                     {exerciseInfo.secondaryMuscles? exerciseInfo.secondaryMuscles.map((muscle, index) => (
                       <li key={index}>{muscle}</li>
                     )): null}
