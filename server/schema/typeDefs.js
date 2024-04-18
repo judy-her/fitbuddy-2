@@ -1,43 +1,43 @@
 const typeDefs = `
   type User {
     _id: ID
-    username: String!
-    email: String!
-    password: String!
-    savedExercises: [Exercise!]!
+    username: String
+    email: String
+    password: String
+    savedExercises: [Exercise]
     exerciseCount: Int
   }
 
   type Exercise {
-    _id: ID!
-    title: String!
-    description: String!
-    exerciseId: String!
-    equipment:[String!]!
+    _id: ID
+    title: String
+    instructions: [String]
+    exerciseId: String
+    equipment:[String]
     image: String
-    category: Category!
   }
 
   type Category {
-    _id: ID!
-    name: String!
-    exercises: [Exercise!]!
+    _id: ID
+    name: String
+    exercises: [Exercise]
   }
 
 
   type Auth {
-    token: ID!
+    token: ID
     user: User
   }
 
   type Query {
     user: User
-    users: [User!]
+    users: [User]
 
     exercise(_id: ID!) : Exercise
     exercises(categoryID: ID, name: String) :[Exercise]
 
-    category(ID:ID!): Category!
+    category(ID:ID): Category
+    categories: [Category]
     
   }
 
@@ -46,9 +46,9 @@ const typeDefs = `
 
     login(email: String!, password: String!): Auth
 
-    saveExercise(exerciseId: String!, title: String!, description: String!, image: String, category:ID!): User
+    saveExercise(categoryName:String!, exerciseId: String!, title: String!, instructions: [String]!, equipment:[String], image: String): Exercise
 
-    deleteExercise(exerciseId: ID!): User
+    deleteExercise(id: ID!): Boolean
   }
 `;
 

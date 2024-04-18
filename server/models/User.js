@@ -27,7 +27,12 @@ const userSchema = new Schema(
       required: true,
     },
     // set savedExercises to be an array of data that adheres to the exerciseSchema
-    savedExercises: [Exercise.schema],
+    savedExercises: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Exercise',
+      },
+    ],
   },
   // set this to use virtual below
   {

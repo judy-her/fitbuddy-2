@@ -1,23 +1,22 @@
-import { useState, useEffect, useId } from 'react';
 import { useMutation } from "@apollo/client";
+import { useEffect, useState } from 'react';
 import {
-  Container,
-  Col,
-  Form,
   Button,
   Card,
+  Col,
+  Container,
+  Form,
   Row
 } from 'react-bootstrap';
 
+import { fetchCategories, getExercise, getExercises } from '../utils/API';
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks,fetchCategories,getExercises,getExercise } from '../utils/API';
-import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { getSavedBookIds, saveBookIds } from '../utils/localStorage';
+import { SAVE_EXERCISE } from '../utils/mutations';
 
-import { ADD_BOOK } from "../utils/mutations";
 
 const SearchBooks = () => {
-  // create state for holding returned google api  data
-  const [searchedBooks, setSearchedBooks] = useState([]);
+  // create state for holding returned api data
   const [exercisesList, setExercisesList] = useState([]);
   const [selectedExercise, setExercise] = useState('');
   const [exerciseInfo, setExerciseInfo] = useState('');
@@ -29,7 +28,7 @@ const SearchBooks = () => {
   const [savedBookIds, setSavedBookIds] = useState([]);
   const [userId, setUserId] = useState('');
 
-  const [addBook, { error: muErr }] = useMutation(ADD_BOOK);
+  const [saveExercise, { data,error }] = useMutation(SAVE_EXERCISE);
 
   useEffect(() => {
     if (Auth.loggedIn()) {
@@ -53,10 +52,10 @@ const SearchBooks = () => {
     event.preventDefault();
 
     try {
+
       const response = await getExercises(selectedCategory);
 
       setExercisesList(JSON.parse(await response.text()));
-      // setSearchInput('');
     } catch (err) {
       console.error(err);
     }
@@ -74,25 +73,23 @@ const SearchBooks = () => {
   };
 
   // create function to handle saving a book to our database
-  const handleSaveBook = async (exercise) => {
-    // find the book in `searchedBooks` state by the matching id
-    const bookToSave = exerciseInfo.find((exercise) => exercise.exerciseId === exerciseId);
-
-    // get token
-    // const token = Auth.loggedIn() ? Auth.getToken() : null;
+  const handleSaveBook = async (exerciseId) => {
 
     if (!userId) {
       return false;
     }
 
     try {
-      // const response = await saveBook(bookToSave, token);
-      await addBook({
-        variables: { ...bookToSave },
+      await saveExercise({
+        variables: { 
+          categoryName:exerciseInfo.bodyPart, 
+          exerciseId, 
+          title: exerciseInfo.name, 
+          instructions: exerciseInfo.instructions, 
+          equipment:[exerciseInfo.equipment], 
+          image: exerciseInfo.gifUrl
+         },
       });
-
-      // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);
     }

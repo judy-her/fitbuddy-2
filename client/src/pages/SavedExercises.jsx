@@ -10,30 +10,28 @@ import {
 
 // import { getMe, deleteBook } from '../utils/API';
 import { QUERY_USER } from "../utils/queries";
-import { DELETE_BOOK } from "../utils/mutations";
+import { DELETE_EXERCISE } from "../utils/mutations";
 import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
 
-const SavedBooks = () => {
-  const { loading, data, error: quErr } = useQuery(QUERY_USER);
-  const [deleteBook, { error: muErr }] = useMutation(DELETE_BOOK, {
+const SavedExercises = () => {
+  const { loading, data } = useQuery(QUERY_USER,{fetchPolicy:'cache-and-network'});
+  const userData = data?.user||{};
+
+  const [deleteExercise, { error }] = useMutation(DELETE_EXERCISE, {
     refetchQueries: [QUERY_USER],
   });
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
-  const handleDeleteBook = async (bookId) => {
-    // const token = Auth.loggedIn() ? Auth.getToken() : null;
+  const handleDeleteExercise = async (exerciseId) => {
     if (!Auth.loggedIn()) {
       return false;
     }
 
     try {
-      const { data } = await deleteBook({
-        variables: {bookId}
-      })
-
-      // upon success, remove book's id from localStorage
-      removeBookId(bookId, data.deleteBook._id);
+      const { data } = await deleteExercise({
+        variables: {id:exerciseId}
+      });
+      
     } catch (err) {
       console.error(err);
     }
@@ -43,33 +41,36 @@ const SavedBooks = () => {
   if (loading) {
     return <h2>LOADING...</h2>;
   }
-  const userData = data.user;
+
+  
 
   return (
     <>
-      <div fluid className="text-light bg-dark p-5">
+      <div className="text-light bg-dark p-5">
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
       </div>
       <Container>
         <h2 className='pt-5'>
-          {userData?.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
-            : 'You have no saved books!'}
+          {userData?.savedExercises.length
+            ? `Viewing ${userData?.savedExercises?.length??0} saved exercise(s):`
+            : 'You have no saved exercises!'}
         </h2>
         <Row>
-          {userData?.savedBooks.map((book) => {
+          {userData?.savedExercises.map((exercise) => {
             return (
-              <Col md="4" key={book.bookId}>
+              <Col md="4" key={exercise._id}>
                 <Card border='dark'>
-                  {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
+                  {exercise.image ? <Card.Img src={exercise.image} alt={`Image of ${exercise.title}`} variant='top' /> : null}
                   <Card.Body>
-                    <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors}</p>
-                    <Card.Text>{book.description}</Card.Text>
-                    <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
-                      Delete this Book!
+                    <Card.Title>{exercise.title}</Card.Title>
+                    
+                      <p>Instructions:</p> 
+                      <ul>{exercise.instructions.map((instruction,index)=>(<li key={index}>{instruction}</li>))}</ul>
+                    
+                    <Button className='btn-block btn-danger' onClick={() => handleDeleteExercise(exercise._id)}>
+                      Delete this Exercise!
                     </Button>
                   </Card.Body>
                 </Card>
@@ -82,4 +83,4 @@ const SavedBooks = () => {
   );
 };
 
-export default SavedBooks;
+export default SavedExercises;
