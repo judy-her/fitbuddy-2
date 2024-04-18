@@ -26,6 +26,30 @@ const typeDefs = `
   type Query {
     user: User
   }
+  
+  type Query {
+    fetchCategories: [Category]
+  }
+
+  type Category {
+    id : ID
+    name : String!
+    description : String!
+    bodyPart: String!
+    gifUrl: String!
+  }
+  
+  type Exercise {
+    id : ID
+    name : String!
+    description : String!
+    bodyPart: String!
+    gifUrl: String!
+  }
+
+  type Query {
+    fetchExercisesByCategory(bodyType: String): [Exercise]
+  }
 
   type Mutation {
     createUser(username: String!, email: String!, password: String!): Auth
