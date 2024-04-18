@@ -12,6 +12,33 @@ h6 {
 }
 
 .small {
-  font-weight: 300;
   font-style: italic;
+  color: brown;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.exercise-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.exercise-name {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* .small {
+  font-size: 0.8rem;
+} */
+
+.instructions-list,
+.secondary-muscles-list {
+  padding-left: 20px;
+}
+
+.instructions-list li,
+.secondary-muscles-list li {
+  list-style-type: disc;
 }
