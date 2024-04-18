@@ -26,30 +26,17 @@ export const LOGIN_USER = gql`
   }
 `;
 
-export const ADD_BOOK = gql`
-  mutation saveBook($bookId: String!, $title: String!, $description: String!, $authors: [String], $image: String, $link: String) {
-    saveBook(bookId: $bookId, title: $title, description: $description, authors: $authors, image: $image, link: $link) {
+export const SAVE_EXERCISE = gql`
+  mutation saveExercise($categoryName: String!, $exerciseId: String!, $title: String!, $instructions: [String]!, $equipment: [String], $image: String) {
+    saveExercise(categoryName:$categoryName, exerciseId: $exerciseId, title: $title, instructions: $instructions, equipment:$equipment, image: $image) {
       _id
-      username
-      email
+      title
     }
   }
 `;
 
-export const DELETE_BOOK = gql`
-  mutation deleteBook($bookId: String!) {
-    deleteBook(bookId: $bookId) {
-      _id
-      username
-      email
-      bookCount
-      savedBooks {
-        authors
-        bookId
-        title
-        image
-        link
-      }
-    }
+export const DELETE_EXERCISE = gql`
+  mutation deleteExercise($id: ID!) {
+    deleteExercise(id: $id) 
   }
 `;

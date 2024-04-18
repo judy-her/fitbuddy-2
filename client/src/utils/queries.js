@@ -5,14 +5,13 @@ export const QUERY_USER = gql`
     user {
       username
       email
-      bookCount
-      savedBooks {
-        authors
-        description
-        bookId
+      savedExercises {
+        _id
         title
+        instructions
+        exerciseId
+        equipment
         image
-        link
       }
     }
   }

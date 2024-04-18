@@ -7,12 +7,16 @@ const exerciseSchema = new Schema({
     type: String,
     required: true,
   },
-  // Exercise description
-  description: {
+  // Exercise instructions
+  instructions: [
+    {
+      type: String
+    }
+  ],
+  exerciseId: {
     type: String,
-    required: true,
+    required: true
   },
-
   // Exercise equipment required
   equipment: {
     type: [String],
@@ -21,12 +25,6 @@ const exerciseSchema = new Schema({
   // Exercise image URL
   image: {
     type: String,
-  },
-  // Exercise category (e.g., cardio, strength, flexibility)
-  category: {
-    type: Schema.Types.ObjectId,
-    ref: 'Category',
-    required: true,
   },
 });
 
