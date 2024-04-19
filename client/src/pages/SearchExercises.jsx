@@ -1,19 +1,11 @@
-import { useMutation } from "@apollo/client";
+import { useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Form,
-  Row
-} from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 
 import { fetchCategories, getExercise, getExercises } from '../utils/API';
 import Auth from '../utils/auth';
 import { getSavedBookIds, saveBookIds } from '../utils/localStorage';
 import { SAVE_EXERCISE } from '../utils/mutations';
-
 
 const SearchBooks = () => {
   // create state for holding returned api data
@@ -28,11 +20,13 @@ const SearchBooks = () => {
   const [savedBookIds, setSavedBookIds] = useState([]);
   const [userId, setUserId] = useState('');
 
-  const [saveExercise, { data,error }] = useMutation(SAVE_EXERCISE);
+  const [saveExercise, { data, error }] = useMutation(SAVE_EXERCISE);
 
   useEffect(() => {
     if (Auth.loggedIn()) {
-      const {data: {_id}} = Auth.getProfile();
+      const {
+        data: { _id },
+      } = Auth.getProfile();
       setUserId(_id);
       setSavedBookIds(getSavedBookIds(_id));
     }
@@ -40,19 +34,17 @@ const SearchBooks = () => {
 
   useEffect(() => {
     saveBookIds(savedBookIds, userId);
-  }, [savedBookIds]);  
-  
+  }, [savedBookIds]);
+
   useEffect(() => {
     getCategories();
   }, []);
-
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     try {
-
       const response = await getExercises(selectedCategory);
 
       setExercisesList(JSON.parse(await response.text()));
@@ -60,7 +52,7 @@ const SearchBooks = () => {
       console.error(err);
     }
   };
-  
+
   const handleFormSubmitExercise = async (event) => {
     event.preventDefault();
 
@@ -74,27 +66,25 @@ const SearchBooks = () => {
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (exerciseId) => {
-
     if (!userId) {
       return false;
     }
 
     try {
       await saveExercise({
-        variables: { 
-          categoryName:exerciseInfo.bodyPart, 
-          exerciseId, 
-          title: exerciseInfo.name, 
-          instructions: exerciseInfo.instructions, 
-          equipment:[exerciseInfo.equipment], 
-          image: exerciseInfo.gifUrl
-         },
+        variables: {
+          categoryName: exerciseInfo.bodyPart,
+          exerciseId,
+          title: exerciseInfo.name,
+          instructions: exerciseInfo.instructions,
+          equipment: [exerciseInfo.equipment],
+          image: exerciseInfo.gifUrl,
+        },
       });
     } catch (err) {
       console.error(err);
     }
   };
-
 
   const getCategories = async () => {
     const response = await fetchCategories();
@@ -110,14 +100,14 @@ const SearchBooks = () => {
             <Row>
               <Col xs={12} md={8}>
                 <Form.Select
-                  name='searchInput'
+                  name="searchInput"
                   value={selectedCategory}
                   onChange={(e) => setSelectedCategory(e.target.value)}
-                  size='lg'
-                  aria-label='Select a category'
+                  size="lg"
+                  aria-label="Select a category"
                 >
-                  <option value=''>Select a category</option>
-                  {categories.map(category => (
+                  <option value="">Select a category</option>
+                  {categories.map((category) => (
                     <option key={category} value={category}>
                       {category}
                     </option>
@@ -126,7 +116,7 @@ const SearchBooks = () => {
                 </Form.Select>
               </Col>
               <Col xs={12} md={4}>
-                <Button type='submit' variant='success' size='lg'>
+                <Button type="submit" variant="success" size="lg">
                   Get Exerices
                 </Button>
               </Col>
@@ -142,23 +132,23 @@ const SearchBooks = () => {
               <Row>
                 <Col xs={12} md={8}>
                   <Form.Select
-                    name='searchInput'
+                    name="searchInput"
                     value={selectedExercise}
                     onChange={(e) => setExercise(e.target.value)}
-                    size='lg'
-                    aria-label='Select a exercise'
+                    size="lg"
+                    aria-label="Select a exercise"
                   >
-                    <option value=''>Select a exercise</option>
-                    {exercisesList.map(exercise => (
-                    <option key={exercise.id} value={exercise.id}>
-                      {exercise.name}
-                    </option>
-                  ))}
+                    <option value="">Select a exercise</option>
+                    {exercisesList.map((exercise) => (
+                      <option key={exercise.id} value={exercise.id}>
+                        {exercise.name}
+                      </option>
+                    ))}
                     {/* Add more options as needed */}
                   </Form.Select>
                 </Col>
                 <Col xs={12} md={4}>
-                  <Button type='submit' variant='success' size='lg'>
+                  <Button type="submit" variant="success" size="lg">
                     Get Exercise info
                   </Button>
                 </Col>
@@ -168,48 +158,61 @@ const SearchBooks = () => {
         </div>
       )}
       <Container>
-        <h2 className='pt-5'>
-          {exerciseInfo 
-            ? `Viewing results:`
-            : 'Choose excercise you want'}
+        <h2 className="pt-5">
+          {exerciseInfo ? `Viewing results:` : 'Choose excercise you want'}
         </h2>
         <Row>
-            <Col md="4" key={exerciseInfo.id}>
-                <Card className='exercise-card' border='dark'>
-                  {exerciseInfo.gifUrl ? (
-                    <Card.Img src={exerciseInfo.gifUrl} alt={`The cover for ${exerciseInfo.name}`} variant='top' />
-                  ) : null}
-                  <Card.Body>
-                    <Card.Title className='exercise-name'>{exerciseInfo.name}</Card.Title>
-                    <p className='small'>Category: {exerciseInfo.bodyPart}</p>
-                    <p className='small'>Equipment: {exerciseInfo.equipment}</p>
-                    <p className='small'>Target: {exerciseInfo.target}</p>
-                    <p className='small'>Instructions:</p>
-                    <ul className='instructions-list'>
-                    {exerciseInfo.instructions? exerciseInfo.instructions.map((instruction, index) => (
-                      <li key={index}>{instruction}</li>
-                    )): null}
-                   </ul>
-                   <p className='small'>Secondary Muscles:</p>
-                  <ul className='secondary-muscles-list'>
-                    {exerciseInfo.secondaryMuscles? exerciseInfo.secondaryMuscles.map((muscle, index) => (
-                      <li key={index}>{muscle}</li>
-                    )): null}
-                  </ul>
-                    {/* <Card.Text>{exerice.description}</Card.Text> */}
-                    {Auth.loggedIn() && (
-                      <Button
-                        disabled={savedBookIds?.some((savedBookId) => savedBookId === exerciseInfo.id)}
-                        className='btn-block btn-info'
-                        onClick={() => handleSaveBook(exerciseInfo.id)}>
-                        {savedBookIds?.some((savedBookId) => savedBookId === exerciseInfo.id)
-                          ? 'This Exercise has already been saved!'
-                          : 'Save this Exercise!'}
-                      </Button>
+          <Col md="4" key={exerciseInfo.id}>
+            <Card className="exercise-card" border="dark">
+              {exerciseInfo.gifUrl ? (
+                <Card.Img
+                  src={exerciseInfo.gifUrl}
+                  alt={`The cover for ${exerciseInfo.name}`}
+                  variant="top"
+                />
+              ) : null}
+              <Card.Body>
+                <Card.Title className="exercise-name">
+                  {exerciseInfo.name}
+                </Card.Title>
+                <p className="small">Category: {exerciseInfo.bodyPart}</p>
+                <p className="small">Equipment: {exerciseInfo.equipment}</p>
+                <p className="small">Target: {exerciseInfo.target}</p>
+                <p className="small">Instructions:</p>
+                <ul className="instructions-list">
+                  {exerciseInfo.instructions
+                    ? exerciseInfo.instructions.map((instruction, index) => (
+                        <li key={index}>{instruction}</li>
+                      ))
+                    : null}
+                </ul>
+                <p className="small">Secondary Muscles:</p>
+                <ul className="secondary-muscles-list">
+                  {exerciseInfo.secondaryMuscles
+                    ? exerciseInfo.secondaryMuscles.map((muscle, index) => (
+                        <li key={index}>{muscle}</li>
+                      ))
+                    : null}
+                </ul>
+                {/* <Card.Text>{exerice.description}</Card.Text> */}
+                {Auth.loggedIn() && (
+                  <Button
+                    disabled={savedBookIds?.some(
+                      (savedBookId) => savedBookId === exerciseInfo.id
                     )}
-                  </Card.Body>
-                </Card>
-              </Col>
+                    className="btn-block btn-info"
+                    onClick={() => handleSaveBook(exerciseInfo.id)}
+                  >
+                    {savedBookIds?.some(
+                      (savedBookId) => savedBookId === exerciseInfo.id
+                    )
+                      ? 'This Exercise has already been saved!'
+                      : 'Save this Exercise!'}
+                  </Button>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
         </Row>
       </Container>
     </>
