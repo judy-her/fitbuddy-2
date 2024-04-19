@@ -7,49 +7,38 @@ export const CREATE_USER = gql`
       user {
         _id
         username
-        email
       }
     }
   }
 `;
 
 export const LOGIN_USER = gql`
-  mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation userLogin($email: String!, $password: String!) {
+    userLogin(email: $email, password: $password) {
       token
       user {
         _id
         username
-        email
       }
     }
   }
 `;
 
-export const ADD_BOOK = gql`
-  mutation saveBook($bookId: String!, $title: String!, $description: String!, $authors: [String], $image: String, $link: String) {
-    saveBook(bookId: $bookId, title: $title, description: $description, authors: $authors, image: $image, link: $link) {
+export const ADD_EXERCISE = gql`
+  mutation saveExercise($exerciseId: String!, $name: String!, $bodyPart: String!, $equipment: String!, $instructions: [String], $gifUrl: String, $secondaryMuscles: [String], $target: String!) {
+    saveExercise(exerciseId: $exerciseId, name: $name, bodyPart: $bodyPart, equipment: $equipment, instructions: $instructions, gifUrl: $gifUrl, secondaryMuscles: $secondaryMuscles, target: $target) {
       _id
-      username
-      email
+      name
+      bodyPart
+      equipment
+      gifUrl
     }
   }
 `;
 
-export const DELETE_BOOK = gql`
-  mutation deleteBook($bookId: String!) {
-    deleteBook(bookId: $bookId) {
-      _id
-      username
-      email
-      bookCount
-      savedBooks {
-        authors
-        bookId
-        title
-        image
-        link
-      }
-    }
+
+export const DELETE_EXERCISE = gql`
+  mutation deleteExercise($id: ID!) {
+    deleteExercise(id: $id) 
   }
 `;

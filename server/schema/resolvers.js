@@ -1,8 +1,13 @@
-const { User } = require('../models');
+const { User, Category, Exercise } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
+
   Query: {
+    users: async () => {
+      return User.find();
+    },
+
     user: async (_, args, { user }) => {
       try {
         if (!user) {
@@ -17,7 +22,18 @@ const resolvers = {
         throw err
       }
     },
+    categories: async () => {
+      try {
+        const categories = await Category.find()
+          .populate('exercises');
+        return categories;
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+    },
   },
+
 
   Mutation: {
     createUser: async (_, {username, email, password}) => {
@@ -41,32 +57,68 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    saveBook: async (_, args, { user }) => {
+
+
+    saveExercise: async (_, args, { user }) => {
       if (!user) {
         throw AuthenticationError;
       }
 
-      const updatedUser = await User.findByIdAndUpdate(
-        user._id,
-        { $addToSet: { savedBooks: args } },
-        { new: true, runValidators: true }
-      );
-      return updatedUser;
-    },
-    deleteBook: async (_, { bookId }, { user }) => {
-      if (!user) {
-        throw AuthenticationError;
+      let exercise = await Exercise.findOne({ exerciseId: args.exerciseId });
+      if (!exercise) {
+        exercise = await Exercise.create({
+          equipment: args.equipment,
+          exerciseId: args.exerciseId,
+          image: args.image,
+          instructions:args.instructions,
+          title: args.title,
+        });
       }
-
-      const updatedUser = await User.findByIdAndUpdate(
-        user._id,
-        { $pull: { savedBooks: { bookId: bookId } } },
+      let category = await Category.findOneAndUpdate(
+        {
+          name: args.categoryName,
+          exercises: { $ne: [exercise._id] }
+        },
+        {
+          $addToSet: {
+            exercises: exercise._id
+          }
+        },
         { new: true }
       );
-      return updatedUser;
-    }
-  }
-}
+
+      if (!category) {
+        category = await Category.create(
+          {
+            name: args.categoryName,
+            exercises: [exercise._id]
+          });
+      }
+
+      await User.findByIdAndUpdate(
+        user._id,
+        { $addToSet: { savedExercises: exercise._id } },
+        { new: true, runValidators: true }
+      );
+
+      return exercise;
+    },
+
+
+    deleteExercise: async (_, { exerciseId }, { user }) => {
+      if (!user) {
+        throw AuthenticationError;
+      }
+
+      const updatedUser = await User.findByIdAndUpdate(
+        user._id,
+        { $pull:{ savedExercises: id} },
+        { new: true }
+      );
+      return true;
+    },
+  },
+};
 
 
 module.exports = resolvers;

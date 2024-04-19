@@ -5,21 +5,21 @@ import { jwtDecode } from 'jwt-decode';
 class AuthService {
   // get user data
   getProfile() {
-    return jwtDecode(this.#getToken());
+    return jwtDecode(this.getToken());
   }
 
   // check if user's logged in
   loggedIn() {
     // Checks if there is a saved token and it's still valid
-    const token = this.#getToken();
+    const token = this.getToken();
     if (token === 'undefined') {
       return false;
     }
-    return !!token && !this.#isTokenExpired(token); // handwaiving here
+    return !!token && !this.isTokenExpired(token); // handwaiving here
   }
 
   // check if token is expired
-  #isTokenExpired(token) {
+  isTokenExpired(token) {
     try {
       const decoded = jwtDecode(token);
       if (decoded.exp && decoded.exp < Date.now() / 1000) {
@@ -32,7 +32,7 @@ class AuthService {
     }
   }
 
-  #getToken() {
+  getToken() {
     // Retrieves the user token from localStorage
     return localStorage.getItem('id_token');
   }

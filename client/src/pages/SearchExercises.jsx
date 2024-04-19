@@ -10,14 +10,13 @@ import {
 } from 'react-bootstrap';
 
 import Auth from '../utils/auth';
-import { saveBook, searchGoogleBooks,fetchCategories,getExercises,getExercise } from '../utils/API';
-import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { fetchCategories,getExercises,getExercise } from '../utils/API';
 
-import { ADD_BOOK } from "../utils/mutations";
+import { ADD_EXERCISE } from "../utils/mutations";
 
-const SearchBooks = () => {
+const SearchExercises = () => {
   // create state for holding returned google api  data
-  const [searchedBooks, setSearchedBooks] = useState([]);
+  // const [searchedBooks, setSearchedBooks] = useState([]);
   const [exercisesList, setExercisesList] = useState([]);
   const [selectedExercise, setExercise] = useState('');
   const [exerciseInfo, setExerciseInfo] = useState('');
@@ -26,22 +25,22 @@ const SearchBooks = () => {
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState('');
   // create state to hold saved bookId values
-  const [savedBookIds, setSavedBookIds] = useState([]);
+  const [savedExerciseIds, setSavedExerciseIds] = useState([]);
   const [userId, setUserId] = useState('');
 
-  const [addBook, { error: muErr }] = useMutation(ADD_BOOK);
+  const [saveExercise, { data,error }] = useMutation(ADD_EXERCISE);
 
   useEffect(() => {
     if (Auth.loggedIn()) {
       const {data: {_id}} = Auth.getProfile();
       setUserId(_id);
-      setSavedBookIds(getSavedBookIds(_id));
+      setSavedExerciseIds(getSavedBookIds(_id));
     }
   }, []);
 
-  useEffect(() => {
-    saveBookIds(savedBookIds, userId);
-  }, [savedBookIds]);  
+  // useEffect(() => {
+  //   saveBookIds(savedBookIds, userId);
+  // }, [savedBookIds]);  
   
   useEffect(() => {
     getCategories();
@@ -73,31 +72,49 @@ const SearchBooks = () => {
     }
   };
 
-  // create function to handle saving a book to our database
-  const handleSaveBook = async (exercise) => {
-    // find the book in `searchedBooks` state by the matching id
-    const bookToSave = exerciseInfo.find((exercise) => exercise.exerciseId === exerciseId);
+  // // create function to handle saving a book to our database
+  // const handleSaveBook = async (exerciseId) => {
+  //   // find the book in `searchedBooks` state by the matching id
+  //   const bookToSave = exerciseInfo.find((exercise) => exercise.exerciseId === exerciseId);
 
-    // get token
-    // const token = Auth.loggedIn() ? Auth.getToken() : null;
+  //   if (!userId) {
+  //     return false;
+  //   }
+
+  //   try {
+  //     // const response = await saveBook(bookToSave, token);
+  //     await saveExercise({
+  //       variables: { ...bookToSave },
+  //     });
+
+  //     // if book successfully saves to user's account, save book id to state
+  //     // setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+  const handleSaveBook = async (exerciseId) => {
 
     if (!userId) {
       return false;
     }
 
     try {
-      // const response = await saveBook(bookToSave, token);
-      await addBook({
-        variables: { ...bookToSave },
+      await saveExercise({
+        variables: { 
+          bodyPart:exerciseInfo.bodyPart, 
+          exerciseId, 
+          name: exerciseInfo.name, 
+          instructions: [exerciseInfo.instructions], 
+          equipment:exerciseInfo.equipment, 
+          gifUrl: exerciseInfo.gifUrl
+         },
       });
-
-      // if book successfully saves to user's account, save book id to state
-      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);
     }
   };
-
 
   const getCategories = async () => {
     const response = await fetchCategories();
@@ -200,7 +217,7 @@ const SearchBooks = () => {
                     )): null}
                   </ul>
                     {/* <Card.Text>{exerice.description}</Card.Text> */}
-                    {Auth.loggedIn() && (
+                    {/* {Auth.loggedIn() && (
                       <Button
                         disabled={savedBookIds?.some((savedBookId) => savedBookId === exerciseInfo.id)}
                         className='btn-block btn-info'
@@ -209,7 +226,7 @@ const SearchBooks = () => {
                           ? 'This Exercise has already been saved!'
                           : 'Save this Exercise!'}
                       </Button>
-                    )}
+                    )} */}
                   </Card.Body>
                 </Card>
               </Col>
@@ -219,4 +236,4 @@ const SearchBooks = () => {
   );
 };
 
-export default SearchBooks;
+export default SearchExercises;
