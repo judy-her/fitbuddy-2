@@ -7,7 +7,7 @@ export const QUERY_USER = gql`
       email
       savedExercises {
         _id
-        name
+        title
         instructions
         exerciseId
         equipment

@@ -2,24 +2,19 @@ const { User, Category, Exercise } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
-
   Query: {
-    users: async () => {
-      return User.find();
-    },
-
     user: async (_, args, { user }) => {
       try {
         if (!user) {
           throw AuthenticationError;
         }
 
-        const foundUser = await User.findById(user._id);
+        const foundUser = await User.findById(user._id)
+          .populate('savedExercises');
         return foundUser;
-
       } catch (err) {
         console.log(err);
-        throw err
+        throw err;
       }
     },
     categories: async () => {
@@ -34,9 +29,8 @@ const resolvers = {
     },
   },
 
-
   Mutation: {
-    createUser: async (_, {username, email, password}) => {
+    createUser: async (_, { username, email, password }) => {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
       return { token, user };
@@ -58,7 +52,6 @@ const resolvers = {
       return { token, user };
     },
 
-
     saveExercise: async (_, args, { user }) => {
       if (!user) {
         throw AuthenticationError;
@@ -74,6 +67,7 @@ const resolvers = {
           title: args.title,
         });
       }
+
       let category = await Category.findOneAndUpdate(
         {
           name: args.categoryName,
@@ -104,21 +98,20 @@ const resolvers = {
       return exercise;
     },
 
-
-    deleteExercise: async (_, { exerciseId }, { user }) => {
+    deleteExercise: async (_, { id }, { user }) => {
       if (!user) {
         throw AuthenticationError;
       }
 
       const updatedUser = await User.findByIdAndUpdate(
         user._id,
-        { $pull:{ savedExercises: id} },
+        { $pull: { savedExercises:  id  } },
         { new: true }
       );
+
       return true;
     },
   },
 };
-
 
 module.exports = resolvers;

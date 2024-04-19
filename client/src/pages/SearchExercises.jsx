@@ -12,42 +12,44 @@ import {
 import Auth from '../utils/auth';
 import { fetchCategories,getExercises,getExercise } from '../utils/API';
 
-import { ADD_EXERCISE } from "../utils/mutations";
+import { SAVE_EXERCISE } from "../utils/mutations";
 
 const SearchExercises = () => {
   // create state for holding returned google api  data
-  // const [searchedBooks, setSearchedBooks] = useState([]);
+
   const [exercisesList, setExercisesList] = useState([]);
   const [selectedExercise, setExercise] = useState('');
   const [exerciseInfo, setExerciseInfo] = useState('');
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   // create state for holding our search field data
-  // const [searchInput, setSearchInput] = useState('');
-  // create state to hold saved bookId values
+  // create state to hold saved exerciseId values
   const [savedExerciseIds, setSavedExerciseIds] = useState([]);
   const [userId, setUserId] = useState('');
 
-  const [saveExercise, { data,error }] = useMutation(ADD_EXERCISE);
+
+  const [saveExercise, { data,error }] = useMutation(SAVE_EXERCISE);
+
 
   useEffect(() => {
     if (Auth.loggedIn()) {
       const {data: {_id}} = Auth.getProfile();
       setUserId(_id);
-      // setSavedExerciseIds(getSavedBookIds(_id));
     }
   }, []);
 
-  // useEffect(() => {
-  //   saveBookIds(savedBookIds, userId);
-  // }, [savedBookIds]);  
-  
+
+  useEffect(() => {
+    setSavedExerciseIds(savedExerciseIds, userId);
+  }, [savedExerciseIds]);  
+
+ 
   useEffect(() => {
     getCategories();
   }, []);
 
 
-  // create method to search for books and set state on form submit
+  // create method to search for exercises and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -55,7 +57,6 @@ const SearchExercises = () => {
       const response = await getExercises(selectedCategory);
 
       setExercisesList(JSON.parse(await response.text()));
-      // setSearchInput('');
     } catch (err) {
       console.error(err);
     }
@@ -72,49 +73,27 @@ const SearchExercises = () => {
     }
   };
 
-  // // create function to handle saving a book to our database
-  // const handleSaveBook = async (exerciseId) => {
-  //   // find the book in `searchedBooks` state by the matching id
-  //   const bookToSave = exerciseInfo.find((exercise) => exercise.exerciseId === exerciseId);
-
-  //   if (!userId) {
-  //     return false;
-  //   }
-
-  //   try {
-  //     // const response = await saveBook(bookToSave, token);
-  //     await saveExercise({
-  //       variables: { ...bookToSave },
-  //     });
-
-  //     // if book successfully saves to user's account, save book id to state
-  //     // setSavedBookIds([...savedBookIds, bookToSave.bookId]);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  const handleSaveBook = async (exerciseId) => {
+  const handleSaveExercise = async (exerciseId) => {
 
     if (!userId) {
       return false;
     }
 
-    try {
-      await saveExercise({
-        variables: { 
-          bodyPart:exerciseInfo.bodyPart, 
-          exerciseId, 
-          name: exerciseInfo.name, 
-          instructions: [exerciseInfo.instructions], 
-          equipment:exerciseInfo.equipment, 
-          gifUrl: exerciseInfo.gifUrl
-         },
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  try {
+    await saveExercise({
+      variables: { 
+        categoryName:exerciseInfo.bodyPart, 
+        exerciseId, 
+        title: exerciseInfo.name, 
+        instructions: exerciseInfo.instructions, 
+        equipment:[exerciseInfo.equipment], 
+        image: exerciseInfo.gifUrl
+       },
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   const getCategories = async () => {
     const response = await fetchCategories();
@@ -215,17 +194,17 @@ const SearchExercises = () => {
                     {exerciseInfo.secondaryMuscles? exerciseInfo.secondaryMuscles.map((muscle, index) => (
                       <li key={index}>{muscle}</li>
                     )): null}
-                  </ul>
-                    {/* {Auth.loggedIn() && (
+                  </ul>  
+                  {Auth.loggedIn() && (
                       <Button
-                        disabled={savedBookIds?.some((savedBookId) => savedBookId === exerciseInfo.id)}
+                        disabled={savedExerciseIds?.some((savedExerciseId) => savedExerciseId === exerciseInfo.id)}
                         className='btn-block btn-info'
-                        onClick={() => handleSaveBook(exerciseInfo.id)}>
-                        {savedBookIds?.some((savedBookId) => savedBookId === exerciseInfo.id)
+                        onClick={() => handleSaveExercise(exerciseInfo.id)}>
+                        {savedExerciseIds?.some((savedExerciseId) => savedExerciseId === exerciseInfo.id)
                           ? 'This Exercise has already been saved!'
                           : 'Save this Exercise!'}
                       </Button>
-                    )}  */}
+                    )} 
                   </Card.Body>
                 </Card>
               </Col>

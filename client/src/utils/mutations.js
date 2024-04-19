@@ -7,6 +7,7 @@ export const CREATE_USER = gql`
       user {
         _id
         username
+        email
       }
     }
   }
@@ -19,23 +20,20 @@ export const LOGIN_USER = gql`
       user {
         _id
         username
+        email
       }
     }
   }
 `;
 
-export const ADD_EXERCISE = gql`
-  mutation saveExercise($exerciseId: String!, $name: String!, $bodyPart: String!, $equipment: String!, $instructions: [String], $gifUrl: String, $secondaryMuscles: [String], $target: String!) {
-    saveExercise(exerciseId: $exerciseId, name: $name, bodyPart: $bodyPart, equipment: $equipment, instructions: $instructions, gifUrl: $gifUrl, secondaryMuscles: $secondaryMuscles, target: $target) {
+export const SAVE_EXERCISE = gql`
+  mutation saveExercise($categoryName: String!, $exerciseId: String!, $title: String!, $instructions: [String]!, $equipment: [String], $image: String) {
+    saveExercise(categoryName:$categoryName, exerciseId: $exerciseId, title: $title, instructions: $instructions, equipment:$equipment, image: $image) {
       _id
-      name
-      bodyPart
-      equipment
-      gifUrl
+      title
     }
   }
 `;
-
 
 export const DELETE_EXERCISE = gql`
   mutation deleteExercise($id: ID!) {
