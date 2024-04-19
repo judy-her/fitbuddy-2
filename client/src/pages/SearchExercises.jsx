@@ -23,7 +23,7 @@ const SearchExercises = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   // create state for holding our search field data
-  const [searchInput, setSearchInput] = useState('');
+  // const [searchInput, setSearchInput] = useState('');
   // create state to hold saved bookId values
   const [savedExerciseIds, setSavedExerciseIds] = useState([]);
   const [userId, setUserId] = useState('');
@@ -34,7 +34,7 @@ const SearchExercises = () => {
     if (Auth.loggedIn()) {
       const {data: {_id}} = Auth.getProfile();
       setUserId(_id);
-      setSavedExerciseIds(getSavedBookIds(_id));
+      // setSavedExerciseIds(getSavedBookIds(_id));
     }
   }, []);
 
@@ -216,7 +216,6 @@ const SearchExercises = () => {
                       <li key={index}>{muscle}</li>
                     )): null}
                   </ul>
-                    {/* <Card.Text>{exerice.description}</Card.Text> */}
                     {/* {Auth.loggedIn() && (
                       <Button
                         disabled={savedBookIds?.some((savedBookId) => savedBookId === exerciseInfo.id)}
@@ -226,7 +225,7 @@ const SearchExercises = () => {
                           ? 'This Exercise has already been saved!'
                           : 'Save this Exercise!'}
                       </Button>
-                    )} */}
+                    )}  */}
                   </Card.Body>
                 </Card>
               </Col>

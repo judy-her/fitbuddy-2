@@ -38,8 +38,8 @@ const LoginForm = () => {
       // const { token, user } = await response.json();
       // HP-
       // const { token, user } = data.login;
-      console.log(user);
-      console.log(token);
+      // console.log(user);
+      // console.log(token);
       // HP-
       // Auth.login(token);
       Auth.login(data.login.token);
