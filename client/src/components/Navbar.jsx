@@ -13,15 +13,15 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar variant="dark" expand="lg" className="navbar-morphism">
         <Container fluid>
-          <Navbar.Brand as={Link} to="/">
+          <Navbar.Brand className="fitbuddy-name logoImg" as={Link} to="/">
             FitBuddy
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbar" />
           <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
             <Nav className="ml-auto d-flex">
-              <Nav.Link as={Link} to="/">
+              <Nav.Link as={Link} to="/search">
                 Search For Excercise
               </Nav.Link>
               {/* if user is logged in show saved books and logout */}
