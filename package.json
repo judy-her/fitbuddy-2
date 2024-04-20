@@ -1,5 +1,5 @@
 {
-  "name": "googlebooks-app",
+  "name": "fitbuddy-app",
   "version": "1.0.0",
   "description": "Heroku",
   "main": "server/server.js",
