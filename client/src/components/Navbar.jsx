@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Navbar, Nav, Container, Modal, Tab } from "react-bootstrap";
-import SignUpForm from "./SignupForm";
-import LoginForm from "./LoginForm";
+
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
+import SignUpForm from './SignupForm';
+import LoginForm from './LoginForm';
+import '../styles/Navbar.css';
 
 import Auth from "../utils/auth";
 
@@ -12,22 +14,29 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg">
+
+      <Navbar variant="dark" expand="lg" className="navbar-morphism">
         <Container fluid>
-          <Navbar.Brand as={Link} to="/">
+          <Navbar.Brand className="fitbuddy-name logoImg" as={Link} to="/">
+
             FitBuddy
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbar" />
           <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
             <Nav className="ml-auto d-flex">
-              <Nav.Link as={Link} to="/">
-                Search For Exercise
+
+              <Nav.Link as={Link} to="/search">
+                Search For Excercise
+
+
               </Nav.Link>
               {/* if user is logged in show saved exercises and logout */}
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link as={Link} to="/saved">
-                    See Your Exercises
+
+                    See Your Excercises
+
                   </Nav.Link>
                   <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
                 </>

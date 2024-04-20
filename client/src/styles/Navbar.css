@@ -1,0 +1,31 @@
+.logoImg {
+  background-image: url('../../public/assets/logo.png');
+  width: 45px;
+  height: 45px;
+}
+
+/* .workoutImage {
+  background-image: url('../../public/assets/background.png');
+  height: 100vh;
+} */
+
+.fitbuddy-name {
+  padding-left: 60px;
+  font-size: 30px;
+  color: whitesmoke;
+}
+
+.navbar-morphism {
+  background-color: rgba(255, 255, 255, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+/* .nav-links {
+  color: white;
+} */

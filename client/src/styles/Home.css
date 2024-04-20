@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.title {
+  font-size: 70px;
+  padding-bottom: 10px;
+}
+.msg-box {
+  width: 540px;
+  background-color: rgb(207, 227, 30);
+}
+
+.conbox-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--main-font-family);
+  height: 100vh;
+  width: 925px;
+  margin: auto;
+  padding-bottom: 100px;
+}
+
+.profile-image-box {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.be-your {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  color: White;
+  font-size: 100px;
+}
+.best {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-style: italic;
+  color: yellow;
+}
+.workoutImage {
+  background-image: url('../../public/assets/background.png');
+  height: 100vh;
+}
