@@ -1,14 +1,3 @@
-.logoImg {
-  background-image: url('../../public/assets/logo.png');
-  width: 45px;
-  height: 45px;
-}
-
-/* .workoutImage {
-  background-image: url('../../public/assets/background.png');
-  height: 100vh;
-} */
-
 .fitbuddy-name {
   padding-left: 60px;
   font-size: 30px;
@@ -26,6 +15,6 @@
   backdrop-filter: blur(10px);
 }
 
-/* .nav-links {
-  color: white;
-} */
+.fire-icon {
+  padding-right: 10px;
+}
