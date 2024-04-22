@@ -4,10 +4,9 @@ import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 
 import { fetchCategories, getExercise, getExercises } from '../utils/API';
 import Auth from '../utils/auth';
-import { getSavedBookIds, saveBookIds } from '../utils/localStorage';
 import { SAVE_EXERCISE } from '../utils/mutations';
 
-const SearchBooks = () => {
+const SearchExercises = () => {
   // create state for holding returned api data
   const [exercisesList, setExercisesList] = useState([]);
   const [selectedExercise, setExercise] = useState('');
@@ -15,9 +14,7 @@ const SearchBooks = () => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   // create state for holding our search field data
-  const [searchInput, setSearchInput] = useState('');
-  // create state to hold saved bookId values
-  const [savedBookIds, setSavedBookIds] = useState([]);
+  const [savedExerciseIds, setSavedExerciseIds] = useState([]);
   const [userId, setUserId] = useState('');
 
   const [saveExercise, { data, error }] = useMutation(SAVE_EXERCISE);
@@ -28,19 +25,18 @@ const SearchBooks = () => {
         data: { _id },
       } = Auth.getProfile();
       setUserId(_id);
-      setSavedBookIds(getSavedBookIds(_id));
     }
   }, []);
 
   useEffect(() => {
-    saveBookIds(savedBookIds, userId);
-  }, [savedBookIds]);
+    setSavedExerciseIds(savedExerciseIds, userId);
+  }, [savedExerciseIds]);
 
   useEffect(() => {
     getCategories();
   }, []);
 
-  // create method to search for books and set state on form submit
+  // create method to search for exercises and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -64,8 +60,8 @@ const SearchBooks = () => {
     }
   };
 
-  // create function to handle saving a book to our database
-  const handleSaveBook = async (exerciseId) => {
+  // create function to handle saving a exercise to our database
+  const handleSaveExercise = async (exerciseId) => {
     if (!userId) {
       return false;
     }
@@ -194,17 +190,16 @@ const SearchBooks = () => {
                       ))
                     : null}
                 </ul>
-                {/* <Card.Text>{exerice.description}</Card.Text> */}
                 {Auth.loggedIn() && (
                   <Button
-                    disabled={savedBookIds?.some(
-                      (savedBookId) => savedBookId === exerciseInfo.id
+                    disabled={savedExerciseIds?.some(
+                      (savedExerciseId) => savedExerciseId === exerciseInfo.id
                     )}
                     className="btn-block btn-info"
-                    onClick={() => handleSaveBook(exerciseInfo.id)}
+                    onClick={() => handleSaveExercise(exerciseInfo.id)}
                   >
-                    {savedBookIds?.some(
-                      (savedBookId) => savedBookId === exerciseInfo.id
+                    {savedExerciseIds?.some(
+                      (savedExerciseId) => savedExerciseId === exerciseInfo.id
                     )
                       ? 'This Exercise has already been saved!'
                       : 'Save this Exercise!'}
@@ -219,4 +214,4 @@ const SearchBooks = () => {
   );
 };
 
-export default SearchBooks;
+export default SearchExercises;
