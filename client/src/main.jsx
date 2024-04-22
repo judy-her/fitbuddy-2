@@ -6,7 +6,8 @@ import App from './App.jsx';
 // import SearchExercises from './pages/SearchExercises.jsx';
 // import SavedExercises from './pages/SavedExercises.jsx';
 import Home from './pages/Home.jsx';
-import Find from './pages/Find.jsx';
+import Find2 from './pages/Find2.jsx';
+// import Find from './pages/Find.jsx';
 import History from './pages/History.jsx';
 
 const router = createBrowserRouter([
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/find',
-        element: <Find />,
+        element: <Find2 />,
       },
       {
         path: '/history',
