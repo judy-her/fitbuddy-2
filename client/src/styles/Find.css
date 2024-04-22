@@ -1,0 +1,73 @@
+.workoutImage {
+  background-image: url('../../public/assets/workout.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
+.be-your {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  color: White;
+  font-size: 100px;
+}
+.cat-search-cont {
+  padding-top: 100px;
+}
+
+.cat-name2 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  color: White;
+  font-size: 50px;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.cont-exercise {
+  background-color: black;
+}
+
+.container-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.row-ex {
+  /* padding-left: 300px; */
+  align-self: center;
+  justify-content: center;
+}
+.test {
+  background-color: black;
+  justify-content: center;
+}
+.col-test {
+  align-self: center;
+  width: 500px;
+}
+
+.exercise-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.exercise-name {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.instructions-list,
+.secondary-muscles-list {
+  padding-left: 20px;
+}
+
+.instructions-list li,
+.secondary-muscles-list li {
+  list-style-type: disc;
+}

@@ -3,9 +3,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './App.jsx';
-import SearchExercises from './pages/SearchExercises.jsx';
-import SavedExercises from './pages/SavedExercises.jsx';
+// import SearchExercises from './pages/SearchExercises.jsx';
+// import SavedExercises from './pages/SavedExercises.jsx';
 import Home from './pages/Home.jsx';
+import Find from './pages/Find.jsx';
+import History from './pages/History.jsx';
 
 const router = createBrowserRouter([
   {
@@ -18,13 +20,21 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/search',
-        element: <SearchExercises />,
+        path: '/find',
+        element: <Find />,
       },
       {
-        path: '/saved',
-        element: <SavedExercises />,
+        path: '/history',
+        element: <History />,
       },
+      // {
+      //   path: '/search',
+      //   element: <SearchExercises />,
+      // },
+      // {
+      //   path: '/saved',
+      //   element: <SavedExercises />,
+      // },
     ],
   },
 ]);
