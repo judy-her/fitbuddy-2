@@ -30,16 +30,18 @@ const AppNavbar = () => {
           <Navbar.Toggle aria-controls="navbar" />
           <Navbar.Collapse id="navbar" className="d-flex flex-row-reverse">
             <Nav className="ml-auto d-flex">
-              <Nav.Link as={Link} to="/find">
+              <Nav.Link as={Link} to="/find" className="links">
                 Search Excercise
               </Nav.Link>
               {/* if user is logged in show saved exercises and logout */}
               {Auth.loggedIn() ? (
                 <>
-                  <Nav.Link as={Link} to="/history">
+                  <Nav.Link as={Link} to="/history" className="links">
                     Your Excercises
                   </Nav.Link>
-                  <Nav.Link onClick={Auth.logout}>Logout</Nav.Link>
+                  <Nav.Link onClick={Auth.logout} className="links">
+                    Logout
+                  </Nav.Link>
                 </>
               ) : (
                 <Nav.Link onClick={() => setShowModal(true)}>
