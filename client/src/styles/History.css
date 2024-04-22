@@ -1,0 +1,78 @@
+/* .workoutImage {
+  background-image: url('../../public/assets/workout.jpeg');
+} */
+
+.con-bg {
+  background-color: black;
+  padding-top: 100px;
+}
+
+.be-your {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  color: White;
+  font-size: 100px;
+}
+.cat-search-cont {
+  padding-top: 100px;
+}
+
+.cat-name {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-style: italic;
+  color: white;
+  font-size: 50px;
+}
+
+.container-wrapper {
+  padding-top: 100px;
+  position: absolute; /* Position the wrapper absolutely */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Set a higher z-index to ensure it appears over the background */
+}
+.con-bg2 {
+  --u: 1.52vmin;
+  --c1: #888888;
+  --c2: #6b6b6b;
+  --c3: #4e4e4e;
+  --c4: #464646;
+  --c5: #393939;
+  --gp: 50% / calc(var(--u) * 10) calc(var(--u) * 17.5);
+  --bp: calc(var(--u) * -5) calc(var(--u) * -8.75);
+  height: 100%;
+  background-attachment: fixed;
+  --bg: conic-gradient(
+        from 120deg at 74.5% 91.75%,
+        var(--c2) 0 120deg,
+        #fff0 0 360deg
+      )
+      var(--gp),
+    conic-gradient(
+        from 120deg at 25.5% 91.75%,
+        var(--c1) 0 120deg,
+        #fff0 0 360deg
+      )
+      var(--gp),
+    conic-gradient(from 60deg at 74.5% 75%, var(--c3) 0 120deg, #fff0 0 360deg)
+      var(--gp),
+    conic-gradient(from 180deg at 25.5% 75%, var(--c2) 0 120deg, #fff0 0 360deg)
+      var(--gp),
+    conic-gradient(from 120deg at 50% 67%, var(--c5) 0 120deg, #fff0 0 360deg)
+      var(--gp),
+    conic-gradient(
+        from 90deg at 50% 50%,
+        var(--c1) 0 30deg,
+        var(--c4) 0 90deg,
+        var(--c3) 0 150deg,
+        var(--c2) 0 180deg,
+        #fff0 0 360deg
+      )
+      var(--gp);
+  background: var(--bg), var(--bg), var(--c1);
+  background-position: var(--bp), var(--bp), var(--bp), var(--bp), var(--bp),
+    var(--bp), 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+}
