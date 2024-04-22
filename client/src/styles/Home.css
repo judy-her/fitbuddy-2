@@ -47,6 +47,6 @@
   color: yellow;
 }
 .workoutImage {
-  background-image: url('../../public/assets/background.png');
+  background-image: url('../../public/assets/workout.jpeg');
   height: 100vh;
 }
